@@ -1,0 +1,172 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Gezr",
+        "version": "1.0.0",
+        "description": "API Specification for the Gezr project"
+    },
+    "paths": {
+        "/login": {
+            "summary": "OAuth login",
+            "description": "Gets the 'login page' from the OAuth provider.",
+            "get": {
+                "responses": {
+                    "302": {
+                        "description": "Redirects to /authorize, including oauth_token and oauth_verifier."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                },
+                "summary": "OAuth login",
+                "description": "Gets the 'login page' from the OAuth provider."
+            }
+        },
+        "/authorize": {
+            "summary": "OAuth authorize",
+            "description": "Authorize endpoint for the OAuth process.",
+            "get": {
+                "responses": {
+                    "302": {
+                        "description": "Redirects to front-end."
+                    }
+                },
+                "description": "Enpoint used for OAuth authorization"
+            },
+            "parameters": [
+                {
+                    "name": "oauth_token",
+                    "description": "",
+                    "schema": {
+
+                    },
+                    "in": "query",
+                    "required": true
+                },
+                {
+                    "name": "oauth_verifier",
+                    "description": "",
+                    "schema": {
+
+                    },
+                    "in": "query",
+                    "required": true
+                }
+            ]
+        },
+        "/{user}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "User example": {
+                                        "value": {
+                                            "id": "string",
+                                            "name": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns user info."
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "summary": "User Information",
+                "description": "Get information about the user."
+            },
+            "parameters": [
+                {
+                    "name": "user",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        },
+        "/streams/{user}/{streamId}": {
+            "summary": "Streams endpoint",
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                },
+                "summary": "Get stream",
+                "description": "Returns the stream (processed and annotated) from the back-end."
+            },
+            "post": {
+                "requestBody": {
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response."
+                    },
+                    "500": {
+                        "description": "An error has occured."
+                    }
+                },
+                "summary": "Add stream",
+                "description": "Send stream to the back-end"
+            },
+            "parameters": [
+                {
+                    "name": "user",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                },
+                {
+                    "name": "streamId",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        },
+        "/statistics/{user}": {
+            "summary": "Statistics endpoints.",
+            "get": {
+                "parameters": [
+                    {
+                        "name": "user",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+
+                            }
+                        },
+                        "description": "Return statistics."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                },
+                "summary": "Get statistics.",
+                "description": "Returns statistics for the user."
+            }
+        }
+    }
+}
